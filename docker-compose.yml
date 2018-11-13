@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY}web
     build:
       context: .
-      dockerfile: Web/Dockerfile
+      dockerfile: src/Web/Dockerfile
