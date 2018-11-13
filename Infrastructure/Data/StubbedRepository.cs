@@ -23,7 +23,7 @@ namespace Infrastructure.Data
 
         public Task<T> AddAsync(T entity)
         {
-            return new Task<T>(() =>
+            return Task.Run(() =>
             {
                 _storage.TryAdd(entity.Id, entity);
                 return entity;
@@ -48,7 +48,7 @@ namespace Infrastructure.Data
 
         public Task<T> GetByIdAsync(int id)
         {
-            return new Task<T>(() => _storage[id]);
+            return Task.Run(() => _storage[id]);
         }
 
         public IEnumerable<T> ListAll()
@@ -58,7 +58,7 @@ namespace Infrastructure.Data
 
         public Task<IReadOnlyList<T>> ListAllAsync()
         {
-            return new Task<IReadOnlyList<T>>(_storage.Values.ToList);
+            return Task.Run<IReadOnlyList<T>>(() => _storage.Values.ToList());
         }
 
         public void Update(T entity)
@@ -68,7 +68,7 @@ namespace Infrastructure.Data
 
         public Task UpdateAsync(T entity)
         {
-            return new Task(() => _storage.TryUpdate(entity.Id, entity, _storage[entity.Id]));
+            return Task.Run(() => _storage.TryUpdate(entity.Id, entity, _storage[entity.Id]));
         }
     }
 }
