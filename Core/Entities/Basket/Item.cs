@@ -1,4 +1,4 @@
-﻿namespace Core.Basket
+﻿namespace Core.Entities.Basket
 {
     public class Item : Entity
     {

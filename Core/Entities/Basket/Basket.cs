@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Core.Basket
+namespace Core.Entities.Basket
 {
     public class Basket : Entity
     {
