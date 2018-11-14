@@ -1,10 +1,11 @@
 using System.Linq;
+using Core.Entities.Basket;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TddXt.AnyRoot;
 using TddXt.AnyRoot.Numbers;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
-namespace UnitTests.Core.Basket
+namespace UnitTests.Core.BasketTests
 {
     [TestClass]
     public class BasketTests
@@ -16,7 +17,7 @@ namespace UnitTests.Core.Basket
         [TestMethod]
         public void ItemNotPresentInBasketItCanBeAdded()
         {
-            var sut = new global::Core.Entities.Basket.Basket();
+            var sut = new Basket();
 
             sut.AddItem(_catalogueItemId, _unitPrice, _quantity);
 
@@ -30,7 +31,7 @@ namespace UnitTests.Core.Basket
         [TestMethod]
         public void ItemNotPresentInBasketItCanBeAddedQuantityDefaultsToOne()
         {
-            var sut = new global::Core.Entities.Basket.Basket();
+            var sut = new Basket();
 
             sut.AddItem(_catalogueItemId, _unitPrice);
 
@@ -44,7 +45,7 @@ namespace UnitTests.Core.Basket
         [TestMethod]
         public void ItemPresentInBasketQuantityIsUpdated()
         {
-            var sut = new global::Core.Entities.Basket.Basket();
+            var sut = new Basket();
             sut.AddItem(_catalogueItemId, _unitPrice, _quantity);
 
             sut.AddItem(_catalogueItemId, _unitPrice, _quantity);
@@ -56,13 +57,25 @@ namespace UnitTests.Core.Basket
         [TestMethod]
         public void ItemPresentInBasketUnitPriceUnchanged()
         {
-            var sut = new global::Core.Entities.Basket.Basket();
+            var sut = new Basket();
             sut.AddItem(_catalogueItemId, _unitPrice, _quantity);
 
             sut.AddItem(_catalogueItemId, _unitPrice, _quantity);
 
             var item = sut.Items.FirstOrDefault();
             Assert.AreEqual(_unitPrice, item.UnitPrice);
+        }
+
+        [TestMethod]
+        public void ItemPresentInBasketCanBeRemoved()
+        {
+            var sut = new Basket();
+            sut.AddItem(_catalogueItemId, _unitPrice, _quantity);
+
+            sut.RemoveItem(_catalogueItemId);
+
+            var item = sut.Items.FirstOrDefault();
+            Assert.IsNull(item);
         }
     }
 }

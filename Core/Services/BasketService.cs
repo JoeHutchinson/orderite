@@ -43,7 +43,7 @@ namespace Core.Services
             return await _basketRepository.AddAsync(basket);
         }
 
-        public async Task RemoveItemFromBasket(int basketId, int catalogueItemId)
+        public async Task RemoveItemFromBasket(int basketId, int catalogueItemId)   //TODO: Use Id or CataId?
         {
             var basket = await _basketRepository.GetByIdAsync(basketId);
             basket.RemoveItem(catalogueItemId);

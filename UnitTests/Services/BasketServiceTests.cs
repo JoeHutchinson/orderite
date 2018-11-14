@@ -15,44 +15,41 @@ namespace UnitTests.Services
     [TestClass]
     public class BasketServiceTests
     {
-        private readonly Basket _basket = new Basket
-        {
-            BuyerId = Root.Any.String(),
-            Id = Root.Any.Integer()
-        };
-
         [TestMethod]
         public async Task ItemAddedToEmptyBasket()
         {
-            var mockRepository = CreateMockBasketRepositoryForBasket(_basket);
+            var basket = CreateEmptyBasket();
+            var mockRepository = CreateMockBasketRepositoryForBasket(basket);
             var sut = new BasketService(mockRepository.Object, CreateMockLogger());
 
-            await sut.AddItemToBasket(_basket.Id, Root.Any.Integer(), Root.Any.Decimal(), Root.Any.Integer());
+            await sut.AddItemToBasket(basket.Id, Root.Any.Integer(), Root.Any.Decimal(), Root.Any.Integer());
 
-            mockRepository.Verify(x => x.UpdateAsync(It.Is<Basket>(i => i == _basket)), Times.Once);
+            mockRepository.Verify(x => x.UpdateAsync(It.Is<Basket>(i => i == basket)), Times.Once);
         }
 
         [TestMethod]
         public async Task BasketCanBeDeleted()
         {
-            var mockRepository = CreateMockBasketRepositoryForBasket(_basket);
+            var basket = CreateEmptyBasket();
+            var mockRepository = CreateMockBasketRepositoryForBasket(basket);
             var sut = new BasketService(mockRepository.Object, CreateMockLogger());
 
-            await sut.DeleteBasketAsync(_basket.Id);
+            await sut.DeleteBasketAsync(basket.Id);
 
-            mockRepository.Verify(x => x.DeleteAsync(It.Is<Basket>(i => i == _basket)), Times.Once);
+            mockRepository.Verify(x => x.DeleteAsync(It.Is<Basket>(i => i == basket)), Times.Once);
         }
 
         [TestMethod]
         public async Task QuantityNotUpdatedForUnknownItem()
         {
-            var mockRepository = CreateMockBasketRepositoryForBasket(_basket);
+            var basket = CreateEmptyBasket();
+            var mockRepository = CreateMockBasketRepositoryForBasket(basket);
             var sut = new BasketService(mockRepository.Object, CreateMockLogger());
 
-            await sut.SetQuantities(_basket.Id, new Dictionary<string, int> { { Root.Any.String(), Root.Any.Integer() } });
+            await sut.SetQuantities(basket.Id, new Dictionary<string, int> { { Root.Any.String(), Root.Any.Integer() } });
 
-            mockRepository.Verify(x => x.UpdateAsync(It.Is<Basket>(i => i == _basket)), Times.Once);
-            var item = _basket.Items.FirstOrDefault();
+            mockRepository.Verify(x => x.UpdateAsync(It.Is<Basket>(i => i == basket)), Times.Once);
+            var item = basket.Items.FirstOrDefault();
             Assert.IsNull(item);
         }
 
@@ -78,6 +75,29 @@ namespace UnitTests.Services
             mockRepository.Verify(x => x.UpdateAsync(It.Is<Basket>(i => i == basket)), Times.Once);
             var item = basket.Items.FirstOrDefault();
             Assert.AreEqual(newQuantity, item.Quantity);
+        }
+
+        [TestMethod]
+        public async Task ItemRemovedFromBasket()
+        {
+            var basket = CreateEmptyBasket();
+            var mockRepository = CreateMockBasketRepositoryForBasket(basket);
+            var sut = new BasketService(mockRepository.Object, CreateMockLogger());
+            await sut.AddItemToBasket(basket.Id, Root.Any.Integer(), Root.Any.Decimal(), Root.Any.Integer());
+
+            await sut.RemoveItemFromBasket(basket.Id, basket.Items.FirstOrDefault().CatalogueItemId);
+
+            Assert.AreEqual(0, basket.Items.Count);
+            mockRepository.Verify(x => x.UpdateAsync(It.Is<Basket>(i => i == basket)), Times.Exactly(2));
+        }
+
+        private static Basket CreateEmptyBasket()
+        {
+            return new Basket
+            {
+                BuyerId = Root.Any.String(),
+                Id = Root.Any.Integer()
+            };
         }
 
         private static Mock<IAsyncRepository<Basket>> CreateMockBasketRepositoryForBasket(Basket basket)
