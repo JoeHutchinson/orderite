@@ -22,6 +22,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<ICatalogueService, CatalogueService>();
             services.AddSingleton(typeof(IRepository<>), typeof(StubbedRepository<>));
             services.AddSingleton(typeof(IAsyncRepository<>), typeof(StubbedRepository<>));
 

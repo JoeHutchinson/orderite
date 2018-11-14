@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Core.Interfaces;
+﻿using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Web.ApiModels;
 
@@ -10,17 +10,19 @@ namespace Web.Controllers
     [Route("api/{memberId}/[controller]")]
     public class BasketsController : ControllerBase
     {
-        private readonly IBasketService _service;
+        private readonly IBasketService _basketService;
+        private readonly ICatalogueService _catalogueService;
 
-        public BasketsController(IBasketService service)
+        public BasketsController(IBasketService basketService, ICatalogueService catalogueService)
         {
-            _service = service;
+            _basketService = basketService;
+            _catalogueService = catalogueService;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateBasket(string memberId, [FromBody]int basketId)
         {
-            var basket = await _service.GetOrCreateBasket(memberId, basketId);
+            var basket = await _basketService.GetOrCreateBasket(memberId, basketId);
             if (basket == null)
             {
                 return NotFound();
@@ -32,21 +34,27 @@ namespace Web.Controllers
         [HttpPost("{basketId}")]
         public async Task<IActionResult> AddToBasket(int basketId, [FromBody]AddItem item)
         {
-            await _service.AddItemToBasket(basketId, item.CatalogueItemId, 22m, item.Quantity);
+            var catalogueItem = await _catalogueService.GetCatalogueItem(item.CatalogueItemId);
+            if (catalogueItem == null)
+            {
+                return NotFound();
+            }
+
+            await _basketService.AddItemToBasket(basketId, catalogueItem.Id, catalogueItem.Price, item.Quantity);
             return Ok();
         }
 
         [HttpPatch("{basketId}")]
         public async Task<IActionResult> UpdateQuantities(string memberId, int basketId, [FromBody]Dictionary<string, int> items)
         {
-            await _service.SetQuantities(basketId, items);
+            await _basketService.SetQuantities(basketId, items);
             return Ok();
         }
 
         [HttpGet("{basketId}")]
         public async Task<IActionResult> GetBasketById(string memberId, int basketId)
         {
-            var basket = await _service.GetBasket(memberId, basketId);
+            var basket = await _basketService.GetBasket(memberId, basketId);
             if (basket == null)
             {
                 return NotFound();
@@ -58,7 +66,7 @@ namespace Web.Controllers
         [HttpDelete("{basketId}")]
         public async Task<IActionResult> DeleteBasket(int basketId)
         {
-            await _service.DeleteBasketAsync(basketId);
+            await _basketService.DeleteBasketAsync(basketId);
             return Ok();
         }
     }
