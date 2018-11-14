@@ -15,7 +15,7 @@ namespace UnitTests.Services
     [TestClass]
     public class BasketServiceTests
     {
-        private Basket _basket = new Basket
+        private readonly Basket _basket = new Basket
         {
             BuyerId = Root.Any.String(),
             Id = Root.Any.Integer()
@@ -25,7 +25,7 @@ namespace UnitTests.Services
         public async Task ItemAddedToEmptyBasket()
         {
             var mockRepository = CreateMockBasketRepositoryForBasket(_basket);
-            var sut = new BasketService(mockRepository.Object);
+            var sut = new BasketService(mockRepository.Object, CreateMockLogger());
 
             await sut.AddItemToBasket(_basket.Id, Root.Any.Integer(), Root.Any.Decimal(), Root.Any.Integer());
 
@@ -36,7 +36,7 @@ namespace UnitTests.Services
         public async Task BasketCanBeDeleted()
         {
             var mockRepository = CreateMockBasketRepositoryForBasket(_basket);
-            var sut = new BasketService(mockRepository.Object);
+            var sut = new BasketService(mockRepository.Object, CreateMockLogger());
 
             await sut.DeleteBasketAsync(_basket.Id);
 
@@ -47,7 +47,7 @@ namespace UnitTests.Services
         public async Task QuantityNotUpdatedForUnknownItem()
         {
             var mockRepository = CreateMockBasketRepositoryForBasket(_basket);
-            var sut = new BasketService(mockRepository.Object);
+            var sut = new BasketService(mockRepository.Object, CreateMockLogger());
 
             await sut.SetQuantities(_basket.Id, new Dictionary<string, int> { { Root.Any.String(), Root.Any.Integer() } });
 
@@ -70,9 +70,9 @@ namespace UnitTests.Services
             basket.AddItem(catalogueItemId, unitPrice, quantity);
 
             var mockRepository = CreateMockBasketRepositoryForBasket(basket);
-            var sut = new BasketService(mockRepository.Object);
+            var sut = new BasketService(mockRepository.Object, CreateMockLogger());
 
-            var newQuantity = 2;
+            const int newQuantity = 2;
             await sut.SetQuantities(basket.Id, new Dictionary<string, int> { {catalogueItemId.ToString(), newQuantity} });
 
             mockRepository.Verify(x => x.UpdateAsync(It.Is<Basket>(i => i == basket)), Times.Once);
@@ -86,6 +86,11 @@ namespace UnitTests.Services
             mockRepository.Setup(x => x.GetByIdAsync(It.Is<int>(i => i == basket.Id))).Returns(Task.Run(() => basket));
             mockRepository.Setup(x => x.UpdateAsync(It.Is<Basket>(i => i == basket))).Returns(Task.Run(() => basket));
             return mockRepository;
+        }
+
+        private static ILogger<BasketService> CreateMockLogger()
+        {
+            return new Mock<ILogger<BasketService>>().Object;
         }
     }
 }

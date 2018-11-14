@@ -7,10 +7,13 @@ namespace Core.Services
     public class CatalogueService : ICatalogueService
     {
         private readonly IAsyncRepository<CatalogItem> _catalogueItemRepository;
+        private readonly ILogger<CatalogueService> _logger;
 
-        public CatalogueService(IAsyncRepository<CatalogItem> catalogueItemRepository)
+        public CatalogueService(IAsyncRepository<CatalogItem> catalogueItemRepository,
+            ILogger<CatalogueService> logger)
         {
             _catalogueItemRepository = catalogueItemRepository;
+            _logger = logger;
 
             _catalogueItemRepository.AddAsync(
                 new CatalogItem

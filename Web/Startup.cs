@@ -1,6 +1,7 @@
 ﻿using Core.Interfaces;
 using Core.Services;
 using Infrastructure.Data;
+using Infrastructure.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,8 @@ namespace Web
             services.AddScoped<ICatalogueService, CatalogueService>();
             services.AddSingleton(typeof(IRepository<>), typeof(StubbedRepository<>));
             services.AddSingleton(typeof(IAsyncRepository<>), typeof(StubbedRepository<>));
+
+            services.AddScoped(typeof(ILogger<>), typeof(LoggerAdapter<>));
 
             services.AddMemoryCache();
 

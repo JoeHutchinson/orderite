@@ -8,10 +8,13 @@ namespace Core.Services
     public class BasketService : IBasketService
     {
         private readonly IAsyncRepository<Basket> _basketRepository;
+        private readonly ILogger<BasketService> _logger;
 
-        public BasketService(IAsyncRepository<Basket> basketRepository)
+        public BasketService(IAsyncRepository<Basket> basketRepository,
+            ILogger<BasketService> logger)
         {
-            this._basketRepository = basketRepository;
+            _basketRepository = basketRepository;
+            _logger = logger;
         }
 
         public async Task AddItemToBasket(int basketId, int catalogItemId, decimal price, int quantity)
@@ -32,6 +35,7 @@ namespace Core.Services
             var basket = await _basketRepository.GetByIdAsync(basketId);
             if (basket != null)
             {
+                _logger.LogInformation($"No basket found for {buyerId}");
                 return basket;
             }
 
@@ -43,6 +47,7 @@ namespace Core.Services
         {
             var basket = await _basketRepository.GetByIdAsync(basketId);
             basket.RemoveItem(catalogueItemId);
+            _logger.LogInformation($"Removed item {catalogueItemId} from basket {basketId}");
             await _basketRepository.UpdateAsync(basket);
         }
 
@@ -59,6 +64,7 @@ namespace Core.Services
             {
                 if (items.TryGetValue(item.CatalogueItemId.ToString(), out var quantity))
                 {
+                    _logger.LogInformation($"Updating quantity of item {item.Id} to {quantity}");
                     item.Quantity = quantity;
                 }
             }
