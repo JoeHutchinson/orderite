@@ -20,9 +20,9 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBasket(string memberId, [FromBody]int basketId)
+        public async Task<IActionResult> CreateBasket(string memberId, [FromBody]CreateBasket crBasket)
         {
-            var basket = await _basketService.GetOrCreateBasket(memberId, basketId);
+            var basket = await _basketService.GetOrCreateBasket(memberId, crBasket.BasketId.Value);
             if (basket == null)
             {
                 return NotFound("No Basket found");
