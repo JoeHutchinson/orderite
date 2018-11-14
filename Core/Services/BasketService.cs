@@ -5,7 +5,7 @@ using Core.Interfaces;
 
 namespace Core.Services
 {
-    public class BasketService
+    public class BasketService : IBasketService
     {
         private readonly IAsyncRepository<Basket> _basketRepository;
 
