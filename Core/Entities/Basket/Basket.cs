@@ -27,5 +27,16 @@ namespace Core.Entities.Basket
             var existingItem = Items.FirstOrDefault(i => i.CatalogueItemId == catalogueItemId);
             existingItem.Quantity += quantity;
         }
+
+        public void RemoveItem(int catalogueItemId)
+        {
+            var existingItem = Items.FirstOrDefault(i => i.CatalogueItemId == catalogueItemId);
+            if (existingItem == null)
+            {
+                return;
+            }
+
+            _items.Remove(existingItem);
+        }
     }
 }

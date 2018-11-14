@@ -27,6 +27,25 @@ namespace Core.Services
             await _basketRepository.DeleteAsync(basket);
         }
 
+        public async Task<Basket> GetOrCreateBasket(string buyerId, int basketId)
+        {
+            var basket = await _basketRepository.GetByIdAsync(basketId);
+            if (basket != null)
+            {
+                return basket;
+            }
+
+            basket = new Basket { BuyerId = buyerId, Id = basketId };
+            return await _basketRepository.AddAsync(basket);
+        }
+
+        public async Task RemoveItemFromBasket(int basketId, int catalogueItemId)
+        {
+            var basket = await _basketRepository.GetByIdAsync(basketId);
+            basket.RemoveItem(catalogueItemId);
+            await _basketRepository.UpdateAsync(basket);
+        }
+
         public async Task SetQuantities(int basketId, Dictionary<string, int> items)
         {
             var basket = await _basketRepository.GetByIdAsync(basketId);

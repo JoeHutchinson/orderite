@@ -37,7 +37,7 @@ namespace Infrastructure.Data
 
         public Task DeleteAsync(T entity)
         {
-            return new Task(() =>
+            return Task.Run(() =>
                 _storage.TryRemove(entity.Id, out var _));
         }
 
@@ -48,7 +48,11 @@ namespace Infrastructure.Data
 
         public Task<T> GetByIdAsync(int id)
         {
-            return Task.Run(() => _storage[id]);
+            return Task.Run(() =>
+            {
+                _storage.TryGetValue(id, out var result);
+                return result;
+            });
         }
 
         public IEnumerable<T> ListAll()

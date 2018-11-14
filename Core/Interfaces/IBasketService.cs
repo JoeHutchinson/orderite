@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Entities.Basket;
 
 namespace Core.Interfaces
 {
@@ -8,5 +9,7 @@ namespace Core.Interfaces
         Task AddItemToBasket(int basketId, int catalogItemId, decimal price, int quantity);
         Task SetQuantities(int basketId, Dictionary<string, int> quantities);
         Task DeleteBasketAsync(int basketId);
+        Task<Basket> GetOrCreateBasket(string buyerId, int basketId);
+        Task RemoveItemFromBasket(int basketId, int catalogueItemId);
     }
 }
