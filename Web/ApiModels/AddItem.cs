@@ -1,8 +1,13 @@
-﻿namespace Web.ApiModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Web.ApiModels
 {
     public class AddItem
     {
-        public int CatalogueItemId { get; set; }
-        public int Quantity { get; set; }
+        [Required]
+        public int? CatalogueItemId { get; set; }
+
+        [Required]
+        public int? Quantity { get; set; }
     }
 }

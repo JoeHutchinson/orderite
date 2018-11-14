@@ -8,7 +8,7 @@ namespace Web.Controllers
 {
     [Route("api/v1/{memberId}/[controller]")]
     [Route("api/{memberId}/[controller]")]
-    public class BasketsController : ControllerBase
+    public class BasketsController : BaseController
     {
         private readonly IBasketService _basketService;
         private readonly ICatalogueService _catalogueService;
@@ -25,7 +25,7 @@ namespace Web.Controllers
             var basket = await _basketService.GetOrCreateBasket(memberId, basketId);
             if (basket == null)
             {
-                return NotFound();
+                return NotFound("No Basket found");
             }
 
             return Ok(basket);
@@ -34,13 +34,13 @@ namespace Web.Controllers
         [HttpPost("{basketId}")]
         public async Task<IActionResult> AddToBasket(int basketId, [FromBody]AddItem item)
         {
-            var catalogueItem = await _catalogueService.GetCatalogueItem(item.CatalogueItemId);
+            var catalogueItem = await _catalogueService.GetCatalogueItem(item.CatalogueItemId.Value);
             if (catalogueItem == null)
             {
-                return NotFound();
+                return NotFound("No CatalogueItem found");
             }
 
-            await _basketService.AddItemToBasket(basketId, catalogueItem.Id, catalogueItem.Price, item.Quantity);
+            await _basketService.AddItemToBasket(basketId, catalogueItem.Id, catalogueItem.Price, item.Quantity.Value);
             return Ok();
         }
 
@@ -57,7 +57,7 @@ namespace Web.Controllers
             var basket = await _basketService.GetBasket(memberId, basketId);
             if (basket == null)
             {
-                return NotFound();
+                return NotFound("No Basket found");
             }
 
             return Ok(basket);
