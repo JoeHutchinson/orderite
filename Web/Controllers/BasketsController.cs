@@ -46,7 +46,7 @@ namespace Web.Controllers
         [HttpGet("{basketId}")]
         public async Task<IActionResult> GetBasketById(string memberId, int basketId)
         {
-            var basket = await _service.GetOrCreateBasket(memberId, basketId);
+            var basket = await _service.GetBasket(memberId, basketId);
             if (basket == null)
             {
                 return NotFound();

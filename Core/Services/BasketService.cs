@@ -46,6 +46,11 @@ namespace Core.Services
             await _basketRepository.UpdateAsync(basket);
         }
 
+        public async Task<Basket> GetBasket(string buyerId, int basketId)
+        {
+            return await _basketRepository.GetByIdAsync(basketId);
+        }
+
         public async Task SetQuantities(int basketId, Dictionary<string, int> items)
         {
             var basket = await _basketRepository.GetByIdAsync(basketId);
