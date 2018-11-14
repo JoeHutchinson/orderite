@@ -23,6 +23,7 @@ namespace Web
         {
             services.AddScoped<IBasketService, BasketService>();
             services.AddSingleton(typeof(IRepository<>), typeof(StubbedRepository<>));
+            services.AddSingleton(typeof(IAsyncRepository<>), typeof(StubbedRepository<>));
 
             services.AddMemoryCache();
 
