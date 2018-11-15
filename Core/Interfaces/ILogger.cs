@@ -6,7 +6,7 @@
     /// <typeparam name="T"></typeparam>
     public interface ILogger<T>
     {
-        void LogInformation(string message, params object[] args);
-        void LogWarning(string message, params object[] args);
+        void Info(string message, params object[] args);
+        void Warn(string message, params object[] args);
     }
 }

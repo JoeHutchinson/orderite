@@ -1,11 +1,10 @@
-using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Web;
 using Web.ApiModels;
 

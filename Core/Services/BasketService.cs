@@ -35,7 +35,7 @@ namespace Core.Services
             var basket = await _basketRepository.GetByIdAsync(basketId);
             if (basket != null)
             {
-                _logger.LogInformation($"No basket found for {buyerId}");
+                _logger.Info($"No basket found for {buyerId}");
                 return basket;
             }
 
@@ -47,7 +47,7 @@ namespace Core.Services
         {
             var basket = await _basketRepository.GetByIdAsync(basketId);
             basket.RemoveItem(catalogueItemId);
-            _logger.LogInformation($"Removed item {catalogueItemId} from basket {basketId}");
+            _logger.Info($"Removed item {catalogueItemId} from basket {basketId}");
             await _basketRepository.UpdateAsync(basket);
         }
 
@@ -64,7 +64,7 @@ namespace Core.Services
             {
                 if (items.TryGetValue(item.CatalogueItemId.ToString(), out var quantity))
                 {
-                    _logger.LogInformation($"Updating quantity of item {item.Id} to {quantity}");
+                    _logger.Info($"Updating quantity of item {item.Id} to {quantity}");
                     item.Quantity = quantity;
                 }
             }
