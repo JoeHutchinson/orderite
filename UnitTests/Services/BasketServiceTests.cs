@@ -85,7 +85,7 @@ namespace UnitTests.Services
             var sut = new BasketService(mockRepository.Object, CreateMockLogger());
             await sut.AddItemToBasket(basket.Id, Root.Any.Integer(), Root.Any.Decimal(), Root.Any.Integer());
 
-            await sut.RemoveItemFromBasket(basket.Id, basket.Items.FirstOrDefault().CatalogueItemId);
+            await sut.RemoveItemsFromBasket(basket.Id, new List<int> { basket.Items.FirstOrDefault().CatalogueItemId });
 
             Assert.AreEqual(0, basket.Items.Count);
             mockRepository.Verify(x => x.UpdateAsync(It.Is<Basket>(i => i == basket)), Times.Exactly(2));

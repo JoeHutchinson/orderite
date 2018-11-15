@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Core.Entities.Basket;
+﻿using Core.Entities.Basket;
 using Core.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Core.Services
 {
@@ -43,11 +43,16 @@ namespace Core.Services
             return await _basketRepository.AddAsync(basket);
         }
 
-        public async Task RemoveItemFromBasket(int basketId, int catalogueItemId)   //TODO: Use Id or CataId?
+        public async Task RemoveItemsFromBasket(int basketId, List<int> catalogueItemIds)
         {
             var basket = await _basketRepository.GetByIdAsync(basketId);
-            basket.RemoveItem(catalogueItemId);
-            _logger.Info($"Removed item {catalogueItemId} from basket {basketId}");
+
+            foreach (var catalogueItemId in catalogueItemIds)
+            {
+                _logger.Info($"Removing item {catalogueItemId} from basket {basketId}");
+                basket.RemoveItem(catalogueItemId);
+            }
+
             await _basketRepository.UpdateAsync(basket);
         }
 

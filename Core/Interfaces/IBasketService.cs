@@ -10,7 +10,7 @@ namespace Core.Interfaces
         Task SetQuantities(int basketId, Dictionary<string, int> quantities);
         Task DeleteBasketAsync(int basketId);
         Task<Basket> GetOrCreateBasket(string buyerId, int basketId);
-        Task RemoveItemFromBasket(int basketId, int catalogueItemId);
+        Task RemoveItemsFromBasket(int basketId, List<int> catalogueItemIds);
         Task<Basket> GetBasket(string buyerId, int basketId);
     }
 }

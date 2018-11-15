@@ -1,6 +1,7 @@
 ﻿using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Web.ApiModels;
 
@@ -20,9 +21,9 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBasket(string memberId, [FromBody]CreateBasket crBasket)
+        public async Task<IActionResult> CreateBasket(string memberId, [FromBody]CreateBasket createBasket)
         {
-            var basket = await _basketService.GetOrCreateBasket(memberId, crBasket.BasketId.Value);
+            var basket = await _basketService.GetOrCreateBasket(memberId, createBasket.BasketId.Value);
             if (basket == null)
             {
                 return NotFound("No Basket found");
@@ -64,9 +65,17 @@ namespace Web.Controllers
         }
 
         [HttpDelete("{basketId}")]
-        public async Task<IActionResult> DeleteBasket(int basketId)
+        public async Task<IActionResult> DeleteBasket(int basketId, [FromBody]List<int> catalogueItemIds)
         {
-            await _basketService.DeleteBasketAsync(basketId);
+            if (catalogueItemIds.Any())
+            {
+                await _basketService.RemoveItemsFromBasket(basketId, catalogueItemIds);
+            }
+            else
+            {
+                await _basketService.DeleteBasketAsync(basketId);
+            }
+
             return Ok();
         }
     }
