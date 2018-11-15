@@ -1,6 +1,7 @@
 ﻿using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.ApiModels;
@@ -21,6 +22,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [Description("Create basket")]
         public async Task<IActionResult> CreateBasket(string memberId, [FromBody]CreateBasket createBasket)
         {
             var basket = await _basketService.GetOrCreateBasket(memberId, createBasket.BasketId.Value);
@@ -33,6 +35,7 @@ namespace Web.Controllers
         }
 
         [HttpPost("{basketId}")]
+        [Description("Add item to basket")]
         public async Task<IActionResult> AddToBasket(int basketId, [FromBody]AddItem item)
         {
             var catalogueItem = await _catalogueService.GetCatalogueItem(item.CatalogueItemId.Value);
@@ -46,6 +49,7 @@ namespace Web.Controllers
         }
 
         [HttpPatch("{basketId}")]
+        [Description("Update quantities of items")]
         public async Task<IActionResult> UpdateQuantities(string memberId, int basketId, [FromBody]Dictionary<string, int> items)
         {
             await _basketService.SetQuantities(basketId, items);
@@ -53,6 +57,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("{basketId}")]
+        [Description("Get Basket")]
         public async Task<IActionResult> GetBasketById(string memberId, int basketId)
         {
             var basket = await _basketService.GetBasket(memberId, basketId);
@@ -65,6 +70,7 @@ namespace Web.Controllers
         }
 
         [HttpDelete("{basketId}")]
+        [Description("Delete items or basket")]
         public async Task<IActionResult> DeleteBasket(int basketId, [FromBody]List<int> catalogueItemIds)
         {
             if (catalogueItemIds.Any())

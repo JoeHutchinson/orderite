@@ -20,7 +20,7 @@
     "Web": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "basket/index",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
