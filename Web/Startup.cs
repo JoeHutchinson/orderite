@@ -49,6 +49,28 @@ namespace Web
             app.UseStaticFiles();
 
             // Register the Swagger generator and the Swagger UI middlewares
+            app.UseSwaggerWithApiExplorer(settings =>
+            {
+                settings.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Orderite API";
+                    document.Info.Description = "Prototype basket API";
+                    document.Info.TermsOfService = "None";
+                    document.Info.Contact = new NSwag.SwaggerContact
+                    {
+                        Name = "Joe Hutchinson",
+                        Email = string.Empty,
+                        Url = "https://www.linkedin.com/in/joe-hutchinson-459681103/"
+                    };
+                    document.Info.License = new NSwag.SwaggerLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = "https://example.com/license"
+                    };
+                };
+            });
+
             app.UseSwaggerUi3WithApiExplorer(settings =>
             {
                 settings.GeneratorSettings.DefaultPropertyNameHandling =
