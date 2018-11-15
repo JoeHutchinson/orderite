@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Entities.Basket;
+using NSwag.Annotations;
 using Web.ApiModels;
 
 namespace Web.Controllers
@@ -23,6 +25,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [Description("Create basket")]
+        [SwaggerResponse(typeof(Basket))]
         public async Task<IActionResult> CreateBasket(string memberId, [FromBody]CreateBasket createBasket)
         {
             var basket = await _basketService.GetOrCreateBasket(memberId, createBasket.BasketId.Value);
@@ -36,6 +39,7 @@ namespace Web.Controllers
 
         [HttpPost("{basketId}")]
         [Description("Add item to basket")]
+        [SwaggerResponse(typeof(void))]
         public async Task<IActionResult> AddToBasket(int basketId, [FromBody]AddItem item)
         {
             var catalogueItem = await _catalogueService.GetCatalogueItem(item.CatalogueItemId.Value);
@@ -50,6 +54,7 @@ namespace Web.Controllers
 
         [HttpPatch("{basketId}")]
         [Description("Update quantities of items")]
+        [SwaggerResponse(typeof(void))]
         public async Task<IActionResult> UpdateQuantities(string memberId, int basketId, [FromBody]Dictionary<string, int> items)
         {
             await _basketService.SetQuantities(basketId, items);
@@ -58,6 +63,7 @@ namespace Web.Controllers
 
         [HttpGet("{basketId}")]
         [Description("Get Basket")]
+        [SwaggerResponse(typeof(Basket))]
         public async Task<IActionResult> GetBasketById(string memberId, int basketId)
         {
             var basket = await _basketService.GetBasket(memberId, basketId);
@@ -71,6 +77,7 @@ namespace Web.Controllers
 
         [HttpDelete("{basketId}")]
         [Description("Delete items or basket")]
+        [SwaggerResponse(typeof(void))]
         public async Task<IActionResult> DeleteBasket(int basketId, [FromBody]List<int> catalogueItemIds)
         {
             if (catalogueItemIds.Any())
