@@ -7,7 +7,7 @@ Proof of concept order management API using Web API.
 ## To run
 **Using docker** : `docker-compose up`
 
-**Using VS** : Run Web project
+**Using VS** : Run Web project or Docker
 
 Provided a console app to allow programatic access to the API in addition to Postman collection. If using the Postman collection ensure the port number is mapped.
 
