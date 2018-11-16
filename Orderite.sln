@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{D1E21DC8-2C02-4E2C-ABA2-3A5EB4ACD4B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "src\Web\Web.csproj", "{D1E21DC8-2C02-4E2C-ABA2-3A5EB4ACD4B6}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2C8263CA-0F79-4F5D-9E5B-D7B8F9E91F94}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{72FB91E6-C837-4149-B01E-14349E6A8DC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{72FB91E6-C837-4149-B01E-14349E6A8DC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{E18CE438-40CE-41B2-BC63-E799AC2BCEA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.csproj", "{E18CE438-40CE-41B2-BC63-E799AC2BCEA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FA9C7512-9434-4D78-AF9C-49EA610F02F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{42C4B59F-1462-4AC6-B032-42691ECAC715}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{2EC52181-896D-4EBC-AFAC-BD073F9C24B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{2EC52181-896D-4EBC-AFAC-BD073F9C24B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionalTests", "FunctionalTests\FunctionalTests.csproj", "{E9C9BC02-8E8E-42C9-BC8C-A2CDFE3BAC90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionalTests", "tests\FunctionalTests\FunctionalTests.csproj", "{E9C9BC02-8E8E-42C9-BC8C-A2CDFE3BAC90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orderite.Client", "Orderite.Client\Orderite.Client.csproj", "{0B925B50-359F-4786-BAAF-C6CD3521055B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orderite.Client", "src\Orderite.Client\Orderite.Client.csproj", "{0B925B50-359F-4786-BAAF-C6CD3521055B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orderite.Console", "Orderite.Console\Orderite.Console.csproj", "{8B0A5B1B-993F-4E85-904D-5DF6B0EDF287}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orderite.Console", "src\Orderite.Console\Orderite.Console.csproj", "{8B0A5B1B-993F-4E85-904D-5DF6B0EDF287}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
